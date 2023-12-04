@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoLondon.TfL", "GoLondon.TfL.csproj", "{EC49FD0A-87D0-4631-A341-7F66AD728B64}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoTravel.Connector", "API/GoTravel.Connector/GoTravel.Connector.csproj", "{EC49FD0A-87D0-4631-A341-7F66AD728B64}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
