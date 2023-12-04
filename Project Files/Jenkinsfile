@@ -68,13 +68,13 @@ pipeline {
             script {
                 echo "Building docker image"
                 if (env.BRANCH_NAME == "main") {
-                    sh "docker build -t golondontfl:latest -f Dockerfile.prod . --progress=plain"
-                    sh "docker save -o golondontfl.tar golondontfl:latest"
+                    sh "docker build -t gotravelcon:latest -f 'Project Files/Dockerfile.prod' . --progress=plain"
+                    sh "docker save -o gotravelcon.tar gotravelcon:latest"
                 }
 
                 if (env.BRANCH_NAME == "develop") {
-                    sh "docker build -t golondontfldev:latest -f Dockerfile.dev . --progress=plain"
-                    sh "docker save -o golondontfl_dev.tar golondontfldev:latest"
+                    sh "docker build -t gotravelcondev:latest -f 'Project Files/Dockerfile.dev' . --progress=plain"
+                    sh "docker save -o gotravelcon_dev.tar gotravelcondev:latest"
                 }
             }
         }
@@ -91,10 +91,10 @@ pipeline {
                                 verbose: true,
                                 transfers: [
                                     sshTransfer(
-                                        sourceFiles: "golondontfl.tar",
-                                        remoteDirectory: 'GoLondon.TfL',
+                                        sourceFiles: "gotravelcon.tar",
+                                        remoteDirectory: 'GoTravel.Connector',
                                         execTimeout: 600000,
-                                        execCommand: './_scripts/gltfl.sh'
+                                        execCommand: './_scripts/gtcon.sh'
                                     )
                                 ]
                             )
@@ -110,10 +110,10 @@ pipeline {
                                 verbose: true,
                                 transfers: [
                                     sshTransfer(
-                                        sourceFiles: "golondontfl_dev.tar",
-                                        remoteDirectory: 'GoLondon.TfL.Dev',
+                                        sourceFiles: "gotravelcon_dev.tar",
+                                        remoteDirectory: 'GoTravel.Connector.Dev',
                                         execTimeout: 600000,
-                                        execCommand: './_scripts/gltfl_dev.sh'
+                                        execCommand: './_scripts/gtcon_dev.sh'
                                     )
                                 ]
                             )
