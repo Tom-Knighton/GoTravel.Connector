@@ -2,6 +2,12 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoTravel.Connector", "API/GoTravel.Connector/GoTravel.Connector.csproj", "{EC49FD0A-87D0-4631-A341-7F66AD728B64}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoTravel.Connector.Services", "GoTravel.Connector.Services\GoTravel.Connector.Services.csproj", "{7F52FE56-15CD-44C8-9B85-4831A9CCE125}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoTravel.Connector.Connections", "GoTravel.Connector.Connections\GoTravel.Connector.Connections.csproj", "{38EA86EC-C541-4784-8FBB-55BA1B81FD9F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GoTravel.Connector.Domain", "GoTravel.Connector.Domain\GoTravel.Connector.Domain.csproj", "{F6CC43ED-102C-4DA6-AAAE-625250A4D043}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +18,17 @@ Global
 		{EC49FD0A-87D0-4631-A341-7F66AD728B64}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EC49FD0A-87D0-4631-A341-7F66AD728B64}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EC49FD0A-87D0-4631-A341-7F66AD728B64}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7F52FE56-15CD-44C8-9B85-4831A9CCE125}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7F52FE56-15CD-44C8-9B85-4831A9CCE125}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7F52FE56-15CD-44C8-9B85-4831A9CCE125}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7F52FE56-15CD-44C8-9B85-4831A9CCE125}.Release|Any CPU.Build.0 = Release|Any CPU
+		{38EA86EC-C541-4784-8FBB-55BA1B81FD9F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{38EA86EC-C541-4784-8FBB-55BA1B81FD9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{38EA86EC-C541-4784-8FBB-55BA1B81FD9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{38EA86EC-C541-4784-8FBB-55BA1B81FD9F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F6CC43ED-102C-4DA6-AAAE-625250A4D043}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F6CC43ED-102C-4DA6-AAAE-625250A4D043}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F6CC43ED-102C-4DA6-AAAE-625250A4D043}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F6CC43ED-102C-4DA6-AAAE-625250A4D043}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
