@@ -6,6 +6,7 @@ pipeline {
         steps {
             script {
                 withDotNet(sdk: '.NET 8') {
+                    dotnetRestore sdk: '.NET 8'
                     echo "Cleaning project..."
                     dotnetClean sdk: '.NET 8'
                 }
