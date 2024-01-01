@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+
+    <ItemGroup>
+      <PackageReference Include="Hangfire.AspNetCore" Version="1.8.7" />
+      <PackageReference Include="Hangfire.Dashboard.Basic.Authentication" Version="7.0.1" />
+      <PackageReference Include="Hangfire.Mongo" Version="1.9.15" />
+      <PackageReference Include="MassTransit.RabbitMQ" Version="8.1.4-develop.1638" />
+    </ItemGroup>
+
+
+
+
+    <ItemGroup>
+      <ProjectReference Include="..\GoTravel.Connector.Connections\GoTravel.Connector.Connections.csproj" />
+    </ItemGroup>
+
+
+
+
+
+
+
+
+
+</Project>
