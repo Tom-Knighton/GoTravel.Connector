@@ -7,15 +7,10 @@ using GoTravel.Standard.Models.MessageModels;
 
 namespace GoTravel.Connector.Connections.TfL.Services;
 
-public class TfLLineService: IGenericLinesService, ITfLLineService
+public class TfLLineService(IHttpClientFactory api) : IGenericLinesService, ITfLLineService
 {
     private const string OperatorPrefix = "tfl-";
-    private readonly HttpClient _api;
-
-    public TfLLineService(IHttpClientFactory api)
-    {
-        _api = api.CreateClient("TfLAPI");
-    }
+    private readonly HttpClient _api = api.CreateClient("TfLAPI");
     
     public async Task<ICollection<tfl_LineMode>> RetrieveAllLineModes()
     {
@@ -55,7 +50,7 @@ public class TfLLineService: IGenericLinesService, ITfLLineService
         var dtos= groups
             .Select(lineGroup => new LineModeUpdateDto
                 { 
-                    Lines = lineGroup.Select(x => OperatorPrefix + x.name).ToList(),
+                    Lines = lineGroup.Select(x => OperatorPrefix + x.id).ToList(),
                     LineModeName = OperatorPrefix + lineGroup.FirstOrDefault()?.modeName ?? ""
                 }
             )
