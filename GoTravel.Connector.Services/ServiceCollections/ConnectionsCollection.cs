@@ -11,12 +11,17 @@ public static class ConnectionsCollection
 {
     public static IServiceCollection RegisterConnectionImplementations(this IServiceCollection services)
     {
-
+        #region Line Modes
         services.AddKeyedTransient<IGenericLinesService, TfLLineService>(ConnectionOperator.TfL);
-
-
+        #endregion
         services.AddTransient<IConnectorModeService, ConnectorModeService>();
 
+
+        #region Stop Points
+        services.AddKeyedTransient<IGenericStopPointService, TfLStopPointService>(ConnectionOperator.TfL);
+        #endregion
+        services.AddTransient<IConnectorStopService, ConnectorStopService>();
+        
         return services;
     }
 }
