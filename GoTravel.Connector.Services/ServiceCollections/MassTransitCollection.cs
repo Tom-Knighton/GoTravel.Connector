@@ -1,4 +1,6 @@
+using System.Text.Json.Serialization;
 using MassTransit;
+using MassTransit.Serialization.JsonConverters;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -21,6 +23,17 @@ public static class MassTransitCollection
                     var password = configuration["Password"];
                     c.Username(username);
                     c.Password(password);
+                });
+                
+                cfg.ConfigureJsonSerializerOptions(opt =>
+                {
+                    var converters = opt.Converters.Where(x => x is not StringDecimalJsonConverter).ToList();
+                    opt.Converters.Clear();
+                    foreach (var converter in converters)
+                    {
+                        opt.Converters.Add(converter);
+                    }
+                    return opt;
                 });
             });
         });

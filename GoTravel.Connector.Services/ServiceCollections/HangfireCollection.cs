@@ -66,6 +66,12 @@ public static class HangfireCollection
                 case "FetchModesAndLines":
                     RecurringJob.AddOrUpdate<IConnectorModeService>(job.Id, x => x.FetchAndSendAllModesAndLines(CancellationToken.None), job.Cron);
                     break;
+                case "FetchNonBusStopPoints":
+                    RecurringJob.AddOrUpdate<IConnectorStopService>(job.Id, x => x.FetchAndSendNonBusStopPointUpdates(CancellationToken.None), job.Cron);
+                    break;
+                case "FetchBusStopPoints":
+                    RecurringJob.AddOrUpdate<IConnectorStopService>(job.Id, x => x.FetchAndSendBusStopPointUpdates(CancellationToken.None), job.Cron);
+                    break;
                 default:
                     Console.WriteLine($"No hangfire job with name {job.Id}");
                     break;

@@ -1,11 +1,8 @@
-using GoTravel.Connector.Connections.TfL.Interfaces;
 using GoTravel.Connector.Domain.Enums;
 using GoTravel.Connector.Domain.Interfaces;
 using GoTravel.Connector.Services.Interfaces;
 using GoTravel.Standard.Messages;
-using GoTravel.Standard.Models.MessageModels;
 using MassTransit;
-using MassTransit.RabbitMqTransport;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace GoTravel.Connector.Services.Services;

@@ -10,6 +10,7 @@ public static class TfLCollection
     public static IServiceCollection AddTfLServices(this IServiceCollection services, IConfiguration configuration)
     {
         services.AddTransient<ITfLLineService, TfLLineService>();
+        services.AddTransient<ITfLStopPointService, TfLStopPointService>();
 
         services.AddHttpClient("TfLAPI", c =>
         {
