@@ -54,7 +54,7 @@ public class TfLLineService(IHttpClientFactory api) : IGenericLinesService, ITfL
                     LineModeName = OperatorPrefix + lineGroup.FirstOrDefault()?.modeName ?? ""
                 }
             )
-            .Where(g => !string.IsNullOrEmpty(g.LineModeName))
+            .Where(g => g.LineModeName != OperatorPrefix)
             .ToList();
 
         return dtos;
