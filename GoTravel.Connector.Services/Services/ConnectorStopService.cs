@@ -50,4 +50,9 @@ public class ConnectorStopService: IConnectorStopService
             await Task.WhenAll(publishTasks);
         }
     }
+
+    public Task FetchAndSendStopPointInfo(CancellationToken ct)
+    {
+        throw new NotImplementedException();
+    }
 }

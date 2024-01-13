@@ -1,8 +1,8 @@
 using System.Text.Json;
-using GoTravel.Connector.Connections.Exceptions;
 using GoTravel.Connector.Connections.TfL.Interfaces;
 using GoTravel.Connector.Connections.TfL.Models;
 using GoTravel.Connector.Domain.Interfaces;
+using GoTravel.Standard.Models;
 using GoTravel.Standard.Models.MessageModels;
 
 namespace GoTravel.Connector.Connections.TfL.Services;
@@ -71,6 +71,12 @@ public class TfLStopPointService(ITfLLineService _lineService, IHttpClientFactor
         stopPoints.AddRange(searchResults);
 
         return stopPoints;
+    }
+    
+    
+    public Task<ICollection<KeyValuePair<StopPointInfoKey, string>>> GetStopPointInfoKvps(CancellationToken ct = default)
+    {
+        throw new NotImplementedException();
     }
 
     private async Task<ICollection<tfl_StopPoint>> StopPointsForTypes(IEnumerable<string> types, ICollection<string> allowedModes)
