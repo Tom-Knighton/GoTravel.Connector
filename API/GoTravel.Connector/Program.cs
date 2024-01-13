@@ -21,6 +21,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services
+    .AddRedis(builder.Configuration.GetSection("Redis"))
     .AddRabbitMq(builder.Configuration.GetSection("Rabbit"))
     .AddHangfireJobs(builder.Configuration.GetSection("Hangfire"))
     .AddTfLServices(builder.Configuration.GetSection("Connections:TfL"))
