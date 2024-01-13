@@ -12,8 +12,8 @@ public class tfl_StopPoint
     public string commonName { get; set; }
     public string? parentId { get; set; }
 
-    public decimal lat { get; set; }
-    public decimal lon { get; set; }
+    public double lat { get; set; }
+    public double lon { get; set; }
     public IEnumerable<tfl_LineModeGroup> lineModeGroups { get; set; } = new List<tfl_LineModeGroup>();
 
     public IEnumerable<tfl_StopPoint> children { get; set; } = new List<tfl_StopPoint>();

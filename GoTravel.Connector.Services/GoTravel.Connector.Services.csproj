@@ -12,6 +12,7 @@
       <PackageReference Include="Hangfire.Dashboard.Basic.Authentication" Version="7.0.1" />
       <PackageReference Include="Hangfire.Mongo" Version="1.9.15" />
       <PackageReference Include="MassTransit.RabbitMQ" Version="8.1.4-develop.1638" />
+      <PackageReference Include="NRedisStack" Version="0.11.0" />
     </ItemGroup>
 
 
