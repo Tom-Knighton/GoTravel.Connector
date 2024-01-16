@@ -4,4 +4,5 @@ public interface IConnectorStopService
 {
     Task FetchAndSendNonBusStopPointUpdates(CancellationToken ct);
     Task FetchAndSendBusStopPointUpdates(CancellationToken ct);
+    Task FetchAndSendStopPointInfo(CancellationToken ct);
 }
