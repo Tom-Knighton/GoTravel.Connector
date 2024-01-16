@@ -50,4 +50,14 @@ public class ConnectorStopService: IConnectorStopService
             await Task.WhenAll(publishTasks);
         }
     }
+
+    public async Task FetchAndSendStopPointInfo(CancellationToken ct)
+    {
+        foreach (var conn in _connections)
+        {
+            var updates = await conn.GetStopPointInfoKvps(ct);
+            var publishTasks = updates.Select(x => _publisher.Publish(new IStopPointInfoUpdated(x.StopId, x.Infos), ct));
+            await Task.WhenAll(publishTasks);
+        }
+    }
 }

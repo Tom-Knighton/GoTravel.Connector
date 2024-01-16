@@ -1,4 +1,3 @@
-using GoTravel.Connector.Domain.Interfaces;
 using GoTravel.Connector.Services.Interfaces;
 using Hangfire;
 using Hangfire.Mongo;
@@ -14,7 +13,7 @@ namespace GoTravel.Connector.Services.ServiceCollections;
 public class HangfireJob
 {
     public string Id { get; set; }
-    public string Cron { get; set; }
+    public string? Cron { get; set; }
 }
 
 public static class HangfireCollection
@@ -60,20 +59,24 @@ public static class HangfireCollection
         var jobs = configuration.GetSection("Jobs").Get<List<HangfireJob>>()?.ToList() ?? new();
         foreach (var job in jobs)
         {
-            Console.WriteLine($"Adding Hangfire Job '{job.Id}' with timing: '{job.Cron}'");
+            var cron = job.Cron ?? Cron.Never();
+            Console.WriteLine($"Adding Hangfire Job '{job.Id}' with timing: '{cron}'");
             switch (job.Id)
             {
                 case "FetchModesAndLines":
-                    RecurringJob.AddOrUpdate<IConnectorModeService>(job.Id, x => x.FetchAndSendAllModesAndLines(default), job.Cron);
+                    RecurringJob.AddOrUpdate<IConnectorModeService>(job.Id, x => x.FetchAndSendAllModesAndLines(default), cron);
                     break;
                 case "FetchNonBusStopPoints":
-                    RecurringJob.AddOrUpdate<IConnectorStopService>(job.Id, x => x.FetchAndSendNonBusStopPointUpdates(default), job.Cron);
+                    RecurringJob.AddOrUpdate<IConnectorStopService>(job.Id, x => x.FetchAndSendNonBusStopPointUpdates(default), cron);
                     break;
                 case "FetchBusStopPoints":
-                    RecurringJob.AddOrUpdate<IConnectorStopService>(job.Id, x => x.FetchAndSendBusStopPointUpdates(default), job.Cron);
+                    RecurringJob.AddOrUpdate<IConnectorStopService>(job.Id, x => x.FetchAndSendBusStopPointUpdates(default), cron);
                     break;
                 case "FetchGeneralArrivals":
-                    RecurringJob.AddOrUpdate<IConnectorGeneralArrivalService>(job.Id, x => x.FetchAllGeneralArrivals(default), job.Cron);
+                    RecurringJob.AddOrUpdate<IConnectorGeneralArrivalService>(job.Id, x => x.FetchAllGeneralArrivals(default), cron);
+                    break;
+                case "FetchStopPointInfo":
+                    RecurringJob.AddOrUpdate<IConnectorStopService>(job.Id, x => x.FetchAndSendStopPointInfo(default), cron);
                     break;
                 default:
                     Console.WriteLine($"No hangfire job with name {job.Id}");
