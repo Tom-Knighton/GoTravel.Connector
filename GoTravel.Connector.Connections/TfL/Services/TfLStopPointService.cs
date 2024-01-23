@@ -228,8 +228,8 @@ public class TfLStopPointService(ITfLLineService _lineService, IHttpClientFactor
         if (maleToilets.Count != 0)
         {
             var hasAccessible = maleToilets.Any(t => t.IsAccessible.Equals("true", StringComparison.OrdinalIgnoreCase));
-            var hasBaby = maleToilets.Any(t => t.IsAccessible.Equals("true", StringComparison.OrdinalIgnoreCase));
-            var hasFree = maleToilets.Any(t => t.IsAccessible.Equals("true", StringComparison.OrdinalIgnoreCase));
+            var hasBaby = maleToilets.Any(t => t.HasBabyChanging.Equals("true", StringComparison.OrdinalIgnoreCase));
+            var hasFree = maleToilets.Any(t => t.IsFeeCharged.Equals("false", StringComparison.OrdinalIgnoreCase));
             var notes = string.Join('\n', maleToilets.Select(t => t.Location));
 
             infos.Add(new(StopPointInfoKey.ToiletsMen, "Y"));
@@ -245,10 +245,9 @@ public class TfLStopPointService(ITfLLineService _lineService, IHttpClientFactor
 
         if (womenToilets.Count != 0)
         {
-            var hasAccessible =
-                womenToilets.Any(t => t.IsAccessible.Equals("true", StringComparison.OrdinalIgnoreCase));
-            var hasBaby = womenToilets.Any(t => t.IsAccessible.Equals("true", StringComparison.OrdinalIgnoreCase));
-            var hasFree = womenToilets.Any(t => t.IsAccessible.Equals("true", StringComparison.OrdinalIgnoreCase));
+            var hasAccessible = womenToilets.Any(t => t.IsAccessible.Equals("true", StringComparison.OrdinalIgnoreCase));
+            var hasBaby = womenToilets.Any(t => t.HasBabyChanging.Equals("true", StringComparison.OrdinalIgnoreCase));
+            var hasFree = womenToilets.Any(t => t.IsFeeCharged.Equals("false", StringComparison.OrdinalIgnoreCase));
             var notes = string.Join('\n', womenToilets.Select(t => t.Location));
 
             infos.Add(new(StopPointInfoKey.ToiletsWomen, "Y"));
@@ -264,10 +263,9 @@ public class TfLStopPointService(ITfLLineService _lineService, IHttpClientFactor
 
         if (unisexToilets.Count != 0)
         {
-            var hasAccessible =
-                unisexToilets.Any(t => t.IsAccessible.Equals("true", StringComparison.OrdinalIgnoreCase));
-            var hasBaby = unisexToilets.Any(t => t.IsAccessible.Equals("true", StringComparison.OrdinalIgnoreCase));
-            var hasFree = unisexToilets.Any(t => t.IsAccessible.Equals("true", StringComparison.OrdinalIgnoreCase));
+            var hasAccessible = unisexToilets.Any(t => t.IsAccessible.Equals("true", StringComparison.OrdinalIgnoreCase));
+            var hasBaby = unisexToilets.Any(t => t.HasBabyChanging.Equals("true", StringComparison.OrdinalIgnoreCase));
+            var hasFree = unisexToilets.Any(t => t.IsFeeCharged.Equals("false", StringComparison.OrdinalIgnoreCase));
             var notes = string.Join('\n', unisexToilets.Select(t => t.Location));
 
             infos.Add(new(StopPointInfoKey.ToiletsUnisex, "Y"));
