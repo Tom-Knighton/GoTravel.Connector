@@ -12,6 +12,7 @@ public static class TfLCollection
         services.AddTransient<ITfLLineService, TfLLineService>();
         services.AddTransient<ITfLStopPointService, TfLStopPointService>();
         services.AddTransient<ITfLArrivalService, TfLArrivalService>();
+        services.AddTransient<ITflJourneyService, TflJourneyService>();
 
         services.AddHttpClient("TfLAPI", c =>
         {
