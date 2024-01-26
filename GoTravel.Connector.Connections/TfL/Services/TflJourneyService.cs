@@ -1,4 +1,5 @@
 using System.Text.Json;
+using System.Web;
 using GoTravel.Connector.Connections.TfL.Interfaces;
 using GoTravel.Connector.Connections.TfL.Models;
 using GoTravel.Connector.Domain.Interfaces;
@@ -52,7 +53,32 @@ public class TflJourneyService: IGenericJourneyService, ITflJourneyService
         var from = $"{request.StartPoint.Lat},{request.StartPoint.Lon}";
         var to = $"{request.EndPoint.Lat},{request.EndPoint.Lon}";
 
-        await using var result = await _client.GetStreamAsync($"Journey/JourneyResults/{from}/to/{to}", ct);
+        var url = $"Journey/JourneyResults/{from}/to/{to}";
+        var query = HttpUtility.ParseQueryString("");
+        query.Add("nationalSearch", "false");
+        if (request.JourneyTime is not null)
+        {
+            query.Add("date", request.JourneyTime.Value.ToString("yyyyMMdd"));
+            query.Add("time", request.JourneyTime.Value.ToString("HHmm"));
+            query.Add("timeIs", request.JourneyTimeIsDeparture ? "departing": "arriving");
+        }
+
+        if (request.PreferenceMode is not null)
+        {
+            query.Add("journeyPreference", TflJourneyPreference(request.PreferenceMode.Value));
+        }
+
+        if (request.AccessibilityPreferences is not null)
+        {
+            query.Add("accessibilityPreference", string.Join(",", request.AccessibilityPreferences.Select(TflAccessibilityPreference)));
+        }
+        
+        query.Add("routeBetweenEntrances", "true");
+        query.Add("useMultiModalCall", "true");
+
+        var queryString = query.ToString();
+        
+        await using var result = await _client.GetStreamAsync(url + "?" + queryString, ct);
         var journey = await JsonSerializer.DeserializeAsync<tfl_JourneyResult>(result, cancellationToken: ct);
 
         return journey?.journeys ?? new List<tfl_Journey>();
@@ -80,5 +106,29 @@ public class TflJourneyService: IGenericJourneyService, ITflJourneyService
         }
 
         return dto;
+    }
+
+    private string TflJourneyPreference(JourneyPreferenceMode mode)
+    {
+        return mode switch
+        {
+            JourneyPreferenceMode.LeastChanges => "leastinterchange",
+            JourneyPreferenceMode.LeastTime => "leasttime",
+            JourneyPreferenceMode.LeastWalking => "leastwalking",
+            _ => ""
+        };
+    }
+
+    private string TflAccessibilityPreference(JourneyAccessibilityPreference preference)
+    {
+        return preference switch
+        {
+            JourneyAccessibilityPreference.NoElevators => "noElevators",
+            JourneyAccessibilityPreference.NoStairs => "noSolidStairs",
+            JourneyAccessibilityPreference.NoEscalators => "noEscalators",
+            JourneyAccessibilityPreference.StepFreeToVehicle => "stepFreeToVehicle",
+            JourneyAccessibilityPreference.StepFreeToPlatform => "stepFreeToPlatform",
+            _ => ""
+        };
     }
 }
