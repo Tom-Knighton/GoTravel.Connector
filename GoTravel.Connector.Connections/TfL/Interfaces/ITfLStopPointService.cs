@@ -1,4 +1,3 @@
-using System.Collections;
 using GoTravel.Connector.Connections.TfL.Models;
 
 namespace GoTravel.Connector.Connections.TfL.Interfaces;

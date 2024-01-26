@@ -12,7 +12,7 @@
 
     <ItemGroup>
       <PackageReference Include="CsvHelper" Version="30.0.1" />
-      <PackageReference Include="GoTravel.Standard" Version="2024.1.14.2156" />
+      <PackageReference Include="GoTravel.Standard" Version="2024.1.25.2239" />
       <PackageReference Include="System.Linq.Async" Version="6.0.1" />
     </ItemGroup>
 
