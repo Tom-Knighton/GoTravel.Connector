@@ -36,4 +36,24 @@ public class JourneyController: ControllerBase
             return StatusCode(StatusCodes.Status500InternalServerError);
         }
     }
+
+    [HttpPost]
+    [Route("{connectionName}/Options")]
+    public async Task<IActionResult> GetJourneyResultsForConnection([FromBody] JourneyRequest request, string connectionName, CancellationToken ct = default)
+    {
+        try
+        {
+            var journeys = await _journeyService.GetPossibleJourneys(connectionName, request, ct);
+
+            return Ok(journeys);
+        }
+        catch (ConnectionDoesntExistException ex)
+        {
+            return NotFound("Connection doesn't exist");
+        }
+        catch (Exception ex)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError);
+        }
+    }
 }
