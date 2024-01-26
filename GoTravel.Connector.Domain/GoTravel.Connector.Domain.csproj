@@ -7,7 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="GoTravel.Standard" Version="2024.1.25.2239" />
+      <PackageReference Include="GoTravel.Standard" Version="2024.1.26.1515" />
       <PackageReference Include="Microsoft.Extensions.Http" Version="8.0.0" />
     </ItemGroup>
 

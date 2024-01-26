@@ -30,7 +30,7 @@ public static class ConnectionsCollection
         #region Journey
         services.AddKeyedTransient<IGenericJourneyService, TflJourneyService>(ConnectionOperator.TfL);
         #endregion
-        
+        services.AddTransient<IConnectorJourneyService, ConnectorJourneyService>();
         
         return services;
     }
