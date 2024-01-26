@@ -1,3 +1,4 @@
+using System.Collections.Specialized;
 using System.Text.Json;
 using System.Web;
 using GoTravel.Connector.Connections.TfL.Interfaces;
@@ -10,12 +11,11 @@ namespace GoTravel.Connector.Connections.TfL.Services;
 public class TflJourneyService: IGenericJourneyService, ITflJourneyService
 {
     private const string OperatorPrefix = "tfl-";
-    private readonly HashSet<string> OperatorExcludedModes = new(StringComparer.OrdinalIgnoreCase) { "walking" };
+    private readonly HashSet<string> OperatorExcludedModes = new(StringComparer.OrdinalIgnoreCase) { "walking", "cycle" };
     private HttpClient _client;
 
     public TflJourneyService(IHttpClientFactory httpFactory)
     {
-        
         _client = httpFactory.CreateClient("TfLAPI");
     }
     
@@ -54,29 +54,34 @@ public class TflJourneyService: IGenericJourneyService, ITflJourneyService
         var to = $"{request.EndPoint.Lat},{request.EndPoint.Lon}";
 
         var url = $"Journey/JourneyResults/{from}/to/{to}";
-        var query = HttpUtility.ParseQueryString("");
-        query.Add("nationalSearch", "false");
+        var queryParams = new NameValueCollection();
+        queryParams.Add("nationalSearch", "false");
         if (request.JourneyTime is not null)
         {
-            query.Add("date", request.JourneyTime.Value.ToString("yyyyMMdd"));
-            query.Add("time", request.JourneyTime.Value.ToString("HHmm"));
-            query.Add("timeIs", request.JourneyTimeIsDeparture ? "departing": "arriving");
+            queryParams.Add("date", request.JourneyTime.Value.ToString("yyyyMMdd"));
+            queryParams.Add("time", request.JourneyTime.Value.ToString("HHmm"));
+            queryParams.Add("timeIs", request.JourneyTimeIsDeparture ? "departing": "arriving");
         }
 
         if (request.PreferenceMode is not null)
         {
-            query.Add("journeyPreference", TflJourneyPreference(request.PreferenceMode.Value));
+            queryParams.Add("journeyPreference", TflJourneyPreference(request.PreferenceMode.Value));
         }
 
         if (request.AccessibilityPreferences is not null)
         {
-            query.Add("accessibilityPreference", string.Join(",", request.AccessibilityPreferences.Select(TflAccessibilityPreference)));
+            queryParams.Add("accessibilityPreference", string.Join(",", request.AccessibilityPreferences.Select(TflAccessibilityPreference)));
+        }
+
+        if (request.ViaLocation is not null)
+        {
+            queryParams.Add("via", $"{request.ViaLocation.Lat},{request.ViaLocation.Lon}");
         }
         
-        query.Add("routeBetweenEntrances", "true");
-        query.Add("useMultiModalCall", "true");
+        queryParams.Add("routeBetweenEntrances", "true");
+        queryParams.Add("useMultiModalCall", "true");
 
-        var queryString = query.ToString();
+        var queryString = string.Join("&", queryParams.AllKeys.Select(k => k + "=" + queryParams[k]));
         
         await using var result = await _client.GetStreamAsync(url + "?" + queryString, ct);
         var journey = await JsonSerializer.DeserializeAsync<tfl_JourneyResult>(result, cancellationToken: ct);
