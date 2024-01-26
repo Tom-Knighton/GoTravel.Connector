@@ -77,9 +77,14 @@ public class TflJourneyService: IGenericJourneyService, ITflJourneyService
         {
             queryParams.Add("via", $"{request.ViaLocation.Lat},{request.ViaLocation.Lon}");
         }
+        else
+        {
+            //TODO: Replace this and always call if TfL respond around issues
+            // https://techforum.tfl.gov.uk/t/journey-api-usemultimodal-ignores-via-location/3145
+            queryParams.Add("useMultiModalCall", "true");
+        }
         
         queryParams.Add("routeBetweenEntrances", "true");
-        queryParams.Add("useMultiModalCall", "true");
 
         var queryString = string.Join("&", queryParams.AllKeys.Select(k => k + "=" + queryParams[k]));
         
