@@ -98,10 +98,12 @@ public class TflJourneyService: IGenericJourneyService, ITflJourneyService
     {
         var dto = new JourneyLegDetails();
 
+        var hasPrefix = OperatorExcludedModes.Contains(leg.mode.id);
+        
         dto.Summary = leg.instruction.summary;
         dto.DetailedSummary = leg.instruction.detailed;
-        dto.ModeId = OperatorExcludedModes.Contains(leg.mode.id) ? leg.mode.id : OperatorPrefix + leg.mode.id; 
-        dto.LineIds = leg.routeOptions.Where(o => o.lineIdentifier is not null).Select(o => OperatorPrefix + o.lineIdentifier?.id).ToList();
+        dto.ModeId = hasPrefix ? leg.mode.id : OperatorPrefix + leg.mode.id; 
+        dto.LineIds = leg.routeOptions.Where(o => o.lineIdentifier is not null).Select(o => $"{(hasPrefix ? OperatorPrefix : "")}{o.lineIdentifier?.id}").ToList();
         dto.LegSteps = new List<JourneyLegStep>();
         foreach (var step in leg.instruction.steps)
         {
