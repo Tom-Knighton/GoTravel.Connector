@@ -25,9 +25,12 @@ public static class ConnectionsCollection
         #region General Arrivals
         services.AddKeyedTransient<IGenericGeneralArrivalService, TfLArrivalService>(ConnectionOperator.TfL);
         #endregion
-
         services.AddTransient<IConnectorGeneralArrivalService, ConnectorGeneralArrivalService>();
         
+        #region Journey
+        services.AddKeyedTransient<IGenericJourneyService, TflJourneyService>(ConnectionOperator.TfL);
+        #endregion
+        services.AddTransient<IConnectorJourneyService, ConnectorJourneyService>();
         
         return services;
     }
