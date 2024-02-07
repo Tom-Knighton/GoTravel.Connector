@@ -1,10 +1,9 @@
 using System.Collections.Specialized;
-using System.Text.Json;
-using System.Web;
 using GoTravel.Connector.Connections.TfL.Interfaces;
 using GoTravel.Connector.Connections.TfL.Models;
 using GoTravel.Connector.Domain.Interfaces;
 using GoTravel.Standard.Models.Journeys;
+using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace GoTravel.Connector.Connections.TfL.Services;
 
@@ -79,7 +78,7 @@ public class TflJourneyService: IGenericJourneyService, ITflJourneyService
         }
         else
         {
-            //TODO: Replace this and always call if TfL respond around issues
+            // TfL say useMultiModal cannot be used for via calls
             // https://techforum.tfl.gov.uk/t/journey-api-usemultimodal-ignores-via-location/3145
             queryParams.Add("useMultiModalCall", "true");
         }
@@ -90,6 +89,7 @@ public class TflJourneyService: IGenericJourneyService, ITflJourneyService
         
         await using var result = await _client.GetStreamAsync(url + "?" + queryString, ct);
         var journey = await JsonSerializer.DeserializeAsync<tfl_JourneyResult>(result, cancellationToken: ct);
+        
 
         return journey?.journeys ?? new List<tfl_Journey>();
     }
@@ -108,6 +108,8 @@ public class TflJourneyService: IGenericJourneyService, ITflJourneyService
             .Select(o => $"{(hasPrefix ? OperatorPrefix : "")}{o.lineIdentifier?.id}")
             .ToList();
         dto.LegSteps = new List<JourneyLegStep>();
+        dto.LineString = JsonSerializer.Deserialize<ICollection<ICollection<double>>>(leg.path.lineString) ?? new List<ICollection<double>>();
+        dto.StopIds = leg.path.stopPoints?.Select(s => s.id).ToList() ?? [];
         foreach (var step in leg.instruction.steps)
         {
             dto.LegSteps.Add(new JourneyLegStep
