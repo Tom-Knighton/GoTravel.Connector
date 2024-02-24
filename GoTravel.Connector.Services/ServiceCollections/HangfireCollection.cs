@@ -59,7 +59,7 @@ public static class HangfireCollection
         var jobs = configuration.GetSection("Jobs").Get<List<HangfireJob>>()?.ToList() ?? new();
         foreach (var job in jobs)
         {
-            var cron = job.Cron ?? Cron.Never();
+            var cron = !string.IsNullOrWhiteSpace(job.Cron) ? job.Cron : Cron.Never();
             Console.WriteLine($"Adding Hangfire Job '{job.Id}' with timing: '{cron}'");
             switch (job.Id)
             {
