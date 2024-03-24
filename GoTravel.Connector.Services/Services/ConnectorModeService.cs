@@ -40,4 +40,14 @@ public class ConnectorModeService: IConnectorModeService
             await Task.WhenAll(publishTasks);
         }
     }
+
+    public async Task FetchAndSendAllRouteStrings(CancellationToken ct)
+    {
+        foreach (var conn in _connections)
+        {
+            var dtos = await conn.GetLineRouteDtos(ct);
+            var publishTasks = dtos.Select(x => _publisher.Publish(new ILineStringUpdated(x), ct)).ToList();
+            await Task.WhenAll(publishTasks);
+        }
+    }
 }

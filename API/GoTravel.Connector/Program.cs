@@ -25,6 +25,7 @@ builder.Services
     .AddRabbitMq(builder.Configuration.GetSection("Rabbit"))
     .AddHangfireJobs(builder.Configuration.GetSection("Hangfire"))
     .AddTfLServices(builder.Configuration.GetSection("Connections:TfL"))
+    .AddLogs()
     .RegisterConnectionImplementations()
     .ConfigureHttpJsonOptions(o =>
     {
