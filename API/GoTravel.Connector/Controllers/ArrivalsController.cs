@@ -1,4 +1,3 @@
-using System.Net;
 using GoTravel.Connector.Services.Interfaces;
 using GoTravel.Standard.Models.Arrivals;
 using Microsoft.AspNetCore.Mvc;
@@ -10,10 +9,12 @@ namespace GoTravel.Connector.Controllers;
 public class ArrivalsController: ControllerBase
 {
     private IConnectorGeneralArrivalService _arrivals;
+    private readonly ILogger<ArrivalsController> _log;
 
-    public ArrivalsController(IConnectorGeneralArrivalService arrivals)
+    public ArrivalsController(IConnectorGeneralArrivalService arrivals, ILogger<ArrivalsController> log)
     {
         _arrivals = arrivals;
+        _log = log;
     }
 
     [HttpGet]
@@ -29,9 +30,8 @@ public class ArrivalsController: ControllerBase
         }
         catch (Exception ex)
         {
-            //TODO: Log
+            _log.LogError(ex, "Failed to retrieve arrivals for {Stop}", stopPointId);
             return StatusCode(500);
         }
     }
-    
 }
