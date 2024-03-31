@@ -78,6 +78,9 @@ public static class HangfireCollection
                 case "FetchStopPointInfo":
                     RecurringJob.AddOrUpdate<IConnectorStopService>(job.Id, x => x.FetchAndSendStopPointInfo(default), cron);
                     break;
+                case "FetchLineRoutes":
+                    RecurringJob.AddOrUpdate<IConnectorModeService>(job.Id, x => x.FetchAndSendAllRouteStrings(default), cron);
+                    break;
                 default:
                     Console.WriteLine($"No hangfire job with name {job.Id}");
                     break;
